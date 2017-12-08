@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load wagtailimages_tags %}
+
+{% block page_content %}
+
+    {% image page.header_image width-1920 as header_photo %}
+    <div class="page-titles-img title-space-lg bg-parallax parallax-overlay mb80" data-jarallax='{"speed": 0.2}'
+         style='background-image: url( {{ header_photo.url }} )'>
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-12">
+                    <h1 class='text-uppercase'>Timeline</h1>
+                </div>
+            </div>
+        </div>
+    </div><!--page title end-->
+
+    <div class="container mb80">
+        <div class="page-timeline">
+            {% for tb in timeline_blocks %}
+                <div class="vtimeline-point">
+                    <div class="vtimeline-icon">
+                        <i class="fa fa-image"></i>
+                    </div>
+                    <div class="vtimeline-block">
+                        <span class="vtimeline-date">{{ tb.date }}</span>
+                        <div class="vtimeline-content">
+                            {% image tb.header_image width-1920 class='img-fluid mb20' %}
+                            <h3>{{ tb.title }}</h3>
+                            <p>
+                                {{ tb.body|safe }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

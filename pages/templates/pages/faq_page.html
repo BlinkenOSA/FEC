@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load wagtailimages_tags %}
+
+{% block page_content %}
+
+    {% image page.header_image width-1920 as header_photo %}
+    <div class="page-titles-img title-space-lg bg-parallax parallax-overlay mb80" data-jarallax='{"speed": 0.2}'
+         style='background-image: url( {{ header_photo.url }} )'>
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-12">
+                    <h1 class='text-uppercase'>Frequently asked questions </h1>
+                </div>
+            </div>
+        </div>
+    </div><!--page title end-->
+
+
+
+    <div class="container mb40">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="accordion" class="mb70" role="tablist" aria-multiselectable="true">
+
+                    {% for fb in faq_blocks %}
+                    <div class="card mb10">
+                        <div class="card-header accordion-header" role="tab" id="heading{{ forloop.counter }}">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                    {{ fb.question }}
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="collapse{{ forloop.counter }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ forloop.counter }}">
+                            <div class="card-body">
+                                    {{ fb.answer|safe }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-faded pt10 pb90">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto text-center">
+                    <h2 class="text-uppercase">{{ page.body_title }}</h2>
+                    <p>
+                        {{ page.body_text|safe }}
+                    </p>
+                    <a href="" class="btn btn-lg btn-rounded btn-primary">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

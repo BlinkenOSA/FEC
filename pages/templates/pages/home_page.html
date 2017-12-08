@@ -1,0 +1,54 @@
+{% extends 'base_home.html' %}
+
+{% block hero %}
+    <div class="bg-parallax fullscreen parallax-overlay" data-jarallax-video="{{ page.hero_video_url }}" data-jarallax-original-styles="null">
+        <div class="d-flex align-items-center">
+            <div class="container">
+                <div class=" row">
+                    <div class="col-lg-10 ml-auto mr-auto text-center">
+                        <div class="hero-text-style1">
+                            <h4 class="text-uppercase text-white-gray h6">{{ page.hero_text_top }}</h4>
+                            <h2 class="text-white text-capitalize font700 display-4">{{ page.hero_text_title }}</h2>
+                            <p class="lead text-white-gray">
+                                {{ page.hero_text_motto }}
+                            </p>
+                            <a href="#" class="btn btn-lg btn-white">About</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--hero-->
+{% endblock %}
+
+{% block counter %}
+    <div class="container pt90 pb50">
+        <div class="row mb30">
+            {% for cb in counter_blocks %}
+                <div class="col-md-6 col-lg-3 text-center mb40">
+                    <h1 class="counter" data-from="0" data-to="{{ cb.counter }}" data-speed="5000" data-refresh-interval="50">{{ cb.counter }}</h1>
+                    <p class="lead">{{ cb.counter_text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block badge %}
+    <div class="container pt90">
+        <div class="row pb60">
+            {% for bb in badge_blocks %}
+            <div class="col-lg-4 mb30 wow zoomInUp" data-wow-delay="100ms" data-wow-duration=".4s"
+                 style="visibility: visible; animation-duration: 0.4s; animation-delay: 100ms; animation-name: zoomInUp;">
+                <div class="icon-box icon-box-center">
+                    <i class="icon-hover-1 bg-dark fa {{ bb.badge_icon_class }} icon-hover-default"></i>
+                    <h4>{{ bb.badge_header_text }}</h4>
+                    <p>
+                        {{ bb.badge_description }}
+                    </p>
+                </div>
+            </div><!--/col-->
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

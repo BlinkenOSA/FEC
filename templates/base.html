@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- plugins CSS (all plugins css file compile into one file by gulp) -->
+    <link rel="stylesheet" href="{% static 'fec/css/plugins/plugins.css' %}" >
+    <!-- Assan cuatom CSS fle -->
+    <link rel="stylesheet" href="{% static 'fec/css/style.css' %}" >
+  </head>
+
+  <body>
+    {% include '_nav.html' %}
+
+    {% block page_content %}
+    {% endblock %}
+
+    {% include '_footer.html' %}
+
+    <!-- Plugins first, then assan custom. -->
+    <script src="{% static 'fec/js/plugins/plugins.js' %}"></script>
+    <script src="{% static 'fec/js/assan.custom.js' %}"></script>
+  </body>
+</html>

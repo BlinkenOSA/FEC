@@ -101,4 +101,10 @@ ENV/
 .mypy_cache/
 .idea/
 .DS_Store
-/FEC/components/local.py
+/fec/components/local.py
+/static/media/
+/static/fec/css/plugins/
+/static/fec/js/plugins/
+/static/fec/css/style.css
+/static/fec/js/assan.custom.js
+/static/fec/bower_components
