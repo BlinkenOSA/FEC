@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-SECRET_KEY = '17382dj6*l&urno6$4#lb6%w9+d2^$=umgff6i8j=ccx%lz+^x'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 PREREQ_APPS = [
     'pages',
