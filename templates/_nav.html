@@ -14,20 +14,20 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="/fec">
             <img class="logo logo-dark" src="{% static 'fec/images/logo.png' %}" alt="">
             <img class="logo logo-light hidden-md-down" src="{% static 'fec/images/logo-light.png' %}" alt="">
         </a>
 
          <div  id="navbarNavDropdown" class="navbar-collapse collapse">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown {% if request.path == '/' %}active{% endif %}">
-                    <a class="nav-link" href="/">Home</a>
+                <li class="nav-item dropdown {% if request.path == '/fec' %}active{% endif %}">
+                    <a class="nav-link" href="/fec">Home</a>
                 </li>
                 <li class="nav-item dropdown {% if 'faq' in request.path %}active{% endif %}">
                     <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">For Researchers</a>
                     <ul class="dropdown-menu">
-                        <li class="{% if 'faq' in request.path %}active{% endif %}"><a href="/faq" class="dropdown-item">Use Conditions</a></li>
+                        <li class="{% if 'faq' in request.path %}active{% endif %}"><a href="/fec/faq" class="dropdown-item">Use Conditions</a></li>
                         <li><a href="#" class="dropdown-item">Details</a></li>
                     </ul>
                 </li>
@@ -47,7 +47,7 @@
                     </ul>
                 </li>
                 <li class="nav-item {% if 'timeline' in request.path %}active{% endif %}">
-                    <a class="nav-link" href="/timeline">History</a>
+                    <a class="nav-link" href="/fec/timeline">History</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
