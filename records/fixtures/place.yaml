@@ -1,0 +1,14 @@
+- model: records.Place
+  pk: 1
+  fields:
+    place: New York
+
+- model: records.Place
+  pk: 2
+  fields:
+    place: Munich
+
+- model: records.Place
+  pk: 3
+  fields:
+    place: Lisbon

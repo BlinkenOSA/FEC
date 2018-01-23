@@ -30,6 +30,9 @@ PREREQ_APPS = [
 
     'modelcluster',
     'taggit',
+    'condensedinlinepanel',
+
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +49,7 @@ PROJECT_APPS = [
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -131,5 +135,14 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
 MEDIA_URL = '/media/'
 
-
 DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
+
+CORS_ORIGIN_WHITELIST = (
+    'universalviewer.io',
+    'localhost:8000',
+    '127.0.0.1:8000'
+)
+
+BASE_PREZI_URI = 'http://127.0.0.1:8000/'
+BASE_IMAGE_URI = 'http://127.0.0.1:8182/iiif/2/'
+

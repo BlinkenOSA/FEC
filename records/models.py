@@ -8,6 +8,9 @@ class Corporation(models.Model):
     def __str__(self):
         return self.corporation
 
+    def __unicode__(self):
+        return self.corporation
+
     class Meta:
         db_table = 'fec_corporations'
 
@@ -27,7 +30,7 @@ class FECEntity(models.Model):
     id = models.AutoField(primary_key=True)
     doc_name = models.CharField(max_length=100)
     title = models.CharField(max_length=20, blank=True)
-    title_given = models.CharField(max_length=100)
+    title_given = models.CharField(max_length=100, blank=True)
     date = models.DateField(blank=True, null=True)
     pages = models.IntegerField()
     is_coded = models.BooleanField(default=False)
@@ -35,14 +38,29 @@ class FECEntity(models.Model):
     summary = models.TextField(blank=True)
     note = models.CharField(max_length=200, blank=True)
     internal_note = models.CharField(max_length=200, blank=True)
-    origin = models.CharField(max_length=20)
     confidential = models.BooleanField()
+
+    place = models.ForeignKey('Place', default=1)
+
+    associated_people = models.ManyToManyField('Person', related_name='associated_people')
+    associated_corporations = models.ManyToManyField('Corporation', related_name='associated_corporations')
+
+    countries = models.ManyToManyField('Country')
+
+    subject_people = models.ManyToManyField('Person', related_name='subject_people')
+    subject_corporations = models.ManyToManyField('Corporation', related_name='subject_corporations')
 
     def __str__(self):
         return " - ".join(filter(None, (self.title, self.title_given)))
 
+    def __unicode__(self):
+        return " - ".join(filter(None, (self.title, self.title_given)))
+
     class Meta:
         db_table = 'fec_entities'
+        verbose_name = 'FEC Entity'
+        verbose_name_plural = 'FEC Entities'
+        ordering = ('date', 'title')
 
 
 class Person(models.Model):
@@ -51,6 +69,9 @@ class Person(models.Model):
 
     def __str__(self):
         return self.person
+
+    def __unicode__(self):
+        return u'%s' % self.person
 
     class Meta:
         db_table = 'fec_people'

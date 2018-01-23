@@ -6,6 +6,7 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from condensedinlinepanel.edit_handlers import CondensedInlinePanel
 
 
 class HomePage(Page):
@@ -19,8 +20,8 @@ class HomePage(Page):
         FieldPanel('hero_text_top'),
         FieldPanel('hero_text_title'),
         FieldPanel('hero_text_motto'),
-        InlinePanel('counters', label="Counters"),
-        InlinePanel('badges', label="Badges")
+        CondensedInlinePanel('counters', label="Counters", card_header_from_field="counter_text"),
+        CondensedInlinePanel('badges', label="Badges", card_header_from_field="badge_header_text")
     ]
 
     def get_context(self, request, *args, **kwargs):
@@ -67,7 +68,7 @@ class FaqPage(Page):
         ImageChooserPanel('header_image'),
         FieldPanel('body_title'),
         FieldPanel('body_text', classname='full'),
-        InlinePanel('faq_items', label='FAQ Items')
+        CondensedInlinePanel('faq_items', label='FAQ Items', card_header_from_field='question')
     ]
 
     def get_context(self, request, *args, **kwargs):
@@ -93,7 +94,7 @@ class TimelinePage(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header_image'),
-        InlinePanel('timeline_items', label='Timeline Items')
+        CondensedInlinePanel('timeline_items', label='Timeline Items', card_header_from_field='title')
     ]
 
     def get_context(self, request, *args, **kwargs):

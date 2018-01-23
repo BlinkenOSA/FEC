@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block page_content %}
+<div class="entry-detail">
+    <div class="page-titles-img title-space-lg bg-parallax parallax-overlay" data-jarallax='{"speed": 0.2}'
+         style='background-image: url({{ header_img }})'>
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-12">
+                    <h1 class='text-uppercase'>{{ object.title }}</h1>
+                    <h3 class="text-uppercase">{{ object.date }}</h3>
+                </div>
+            </div>
+        </div>
+    </div><!--page title end-->
+
+    <div class="container">
+        <div class="uv"
+             data-uri="{{ manifest_url }}"
+             style="width: 100%; height: 700px;">
+        </div>
+        <script type="text/javascript" id="embedUV" src="http://universalviewer.io/uv/lib/embed.js"></script>
+    </div>
+</div>
+{% endblock %}

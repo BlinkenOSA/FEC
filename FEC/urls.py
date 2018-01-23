@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'^admin/', admin.site.urls),
 
+    url(r'^record/', include('records.urls', namespace='record')),
+
     url(r'', include(wagtail_urls)),
 ]
 

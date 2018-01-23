@@ -1,0 +1,20 @@
+.entry-detail h3 {
+    color: #fff;
+}
+
+.title-space-lg {
+    padding-top: 6em;
+    padding-bottom: 3em;
+}
+
+@media (min-width: 992px) {
+    .navbar.navbar-transparent.nav-sticky .navbar-brand .logo {
+        position: absolute;
+        top: -20px; }
+}
+
+.entry-detail .container {
+    max-width: 100%;
+    width: 100%;
+    padding: 0;
+}
