@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load bootstrap_pagination %}
+
+{% block page_content %}
+    <div class="page-titles-img title-space-lg bg-parallax parallax-overlay" data-jarallax='{"speed": 0.2}'
+         style='background-image: url({{ header_img }})'>
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-12">
+                    <h1 class='text-uppercase'>{{ object.title }}</h1>
+                    <h3 class="text-uppercase">{{ object.date }}</h3>
+                </div>
+            </div>
+        </div>
+    </div><!--page title end-->
+
+    <div class="container pt30">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well">
+                    <form action="." method="get">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control form-control-sm" placeholder="Enter your search text..." value="{{ query }}">
+                            <span class="input-group-btn">
+                                <button class="btn btn-outline-secondary btn-sm btn-search" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                        {% for facet in form.selected_facets %}
+                            <input type="hidden" name="selected_facets" value="{{ facet }}" />
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid pt30">
+        <div class="row">
+            {% for fec_entity in page_obj.object_list %}
+                <div class="col-md-2 mb40">
+                    <div class="image-card-title-overlay">
+
+                        {% if fec_entity.place_display == 'Munich' %}
+                            <div class="ribbon munich"><span>Munich</span></div>
+                        {% elif fec_entity.place_display == 'New York' %}
+                            <div class="ribbon new_york"><span>New York</span></div>
+                        {% else %}
+                            <div class="ribbon lisbon"><span>Lisbon</span></div>
+                        {% endif %}
+
+                        <a class="card-link" href="{% url 'record:view' fec_entity.pk %}"></a>
+
+                        <div class="card-overlay">
+                            <div class="overlay-inner">
+                                <h4>{{ fec_entity.title_display }}</h4>
+                                <p class="text-dark">{{ fec_entity.date_display }}</p>
+                            </div>
+                        </div>
+                        <img src="{{ iiif_server }}{{ fec_entity.doc_id }}/200,200,700,533/full/0/gray.jpg" class="img-fluid">
+                    </div>
+                </div><!--/col-->
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {% if page_obj.has_previous or page_obj.has_next %}
+                    {% bootstrap_paginate page_obj range=10 show_prev_next="true" next_label="Next »" previous_label="« Previous" %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

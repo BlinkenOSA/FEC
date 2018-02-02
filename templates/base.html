@@ -13,6 +13,9 @@
     <!-- Assan cuatom CSS fle -->
     <link rel="stylesheet" href="{% static 'fec/css/style.css' %}" >
     <link rel="stylesheet" href="{% static 'fec/css/fec.css' %}" >
+
+    {% block page_css %}
+    {% endblock %}
   </head>
 
   <body>
@@ -24,6 +27,9 @@
     {% include '_footer.html' %}
 
     <!-- Plugins first, then assan custom. -->
+    {% block page_js %}
+    {% endblock %}
+
     <script src="{% static 'fec/js/plugins/plugins.js' %}"></script>
     <script src="{% static 'fec/js/assan.custom.js' %}"></script>
   </body>

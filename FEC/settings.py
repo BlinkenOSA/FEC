@@ -13,8 +13,11 @@ DEBUG = True
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 PREREQ_APPS = [
+    'haystack',
     'pages',
     'search',
+
+    'bootstrap_pagination',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -144,5 +147,12 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 BASE_PREZI_URI = 'http://127.0.0.1:8000/'
-BASE_IMAGE_URI = 'http://127.0.0.1:8182/iiif/2/'
+BASE_IMAGE_URI = 'http://iiif.osaarchivum.org/iiif/2/'
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}

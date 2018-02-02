@@ -1,0 +1,23 @@
+{{ object.title }}
+{{ object.title_given }}
+{{ object.summary }}
+
+{% for ap in object.associated_people.all %}
+    {{ ap.person }}
+{% endfor %}
+
+{% for ac in object.associated_corporations.all %}
+    {{ ac.corporation }}
+{% endfor %}
+
+{% for sp in object.subject_people.all %}
+    {{ sp.person }}
+{% endfor %}
+
+{% for sc in object.subject_corporations.all %}
+    {{ sc.corporation }}
+{% endfor %}
+
+{% for c in object.countries.all %}
+    {{ c.country }}
+{% endfor %}
