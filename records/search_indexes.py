@@ -7,19 +7,19 @@ from records.models import FECEntity
 
 class RecordIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    date = indexes.CharField(indexed=True, model_attr="date")
+    date = indexes.DateField(indexed=True, model_attr="date")
     title_display = indexes.CharField(indexed=False, stored=True, model_attr='title')
     date_display = indexes.CharField(indexed=False, stored=True, model_attr='date')
     place_display = indexes.CharField(indexed=False, stored=True)
     doc_id = indexes.CharField(indexed=False, stored=True, model_attr='doc_name')
 
     # Facets
-    place = indexes.FacetCharField(null=True)
-    associated_people = indexes.FacetMultiValueField(null=True)
-    associated_corporations = indexes.FacetMultiValueField(null=True)
-    countries = indexes.FacetMultiValueField(null=True)
-    subject_people = indexes.FacetMultiValueField(null=True)
-    subject_corporations = indexes.FacetMultiValueField(null=True)
+    place = indexes.CharField(null=True, faceted=True)
+    associated_people = indexes.MultiValueField(null=True, faceted=True)
+    associated_corporations = indexes.MultiValueField(null=True, faceted=True)
+    countries = indexes.MultiValueField(null=True, faceted=True)
+    subject_people = indexes.MultiValueField(null=True, faceted=True)
+    subject_corporations = indexes.MultiValueField(null=True, faceted=True)
 
     def get_model(self):
         return FECEntity

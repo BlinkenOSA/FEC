@@ -122,3 +122,22 @@
   border-right: 3px solid #8F5408;
   border-top: 3px solid #8F5408;
 }
+
+.noUi-connect {
+    background-color: #4782d3 !important;
+}
+
+.select2 {
+    width: 100% !important;
+}
+
+.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
+    color: #FFF;
+    background: #4782d3;
+    border-radius: 0;
+    border: none;
+}
+
+.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice__remove {
+    color: #FFF;
+}

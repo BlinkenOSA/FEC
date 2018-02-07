@@ -1,5 +1,26 @@
 {% extends 'base.html' %}
 {% load bootstrap_pagination %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'fec/bower_components/nouislider/distribute/nouislider.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'fec/bower_components/select2/dist/css/select2.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'fec/bower_components/select2-bootstrap-theme/dist/select2-bootstrap.min.css' %}" type="text/css" />
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        var current_start_date = '{{ current_start_date }}';
+        var current_end_date = '{{ current_end_date }}';
+        var global_start_date = '{{ global_start_date }}';
+        var global_end_date = '{{ global_end_date }}';
+    </script>
+    <script src="{% static 'fec/bower_components/nouislider/distribute/nouislider.min.js' %}"></script>
+    <script src="{% static 'fec/bower_components/wnumb/wNumb.js' %}"></script>
+    <script src="{% static 'fec/bower_components/select2/dist/js/select2.min.js' %}"></script>
+    <script src="{% static 'fec/js/fec.js' %}"></script>
+{% endblock %}
 
 {% block page_content %}
     <div class="page-titles-img title-space-lg bg-parallax parallax-overlay" data-jarallax='{"speed": 0.2}'
@@ -15,26 +36,103 @@
     </div><!--page title end-->
 
     <div class="container pt30">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="well">
-                    <form action="." method="get">
+        <form id="searchform" action="" method="get">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well">
                         <div class="input-group">
                             <input type="text" name="q" class="form-control form-control-sm" placeholder="Enter your search text..." value="{{ query }}">
                             <span class="input-group-btn">
-                                <button class="btn btn-outline-secondary btn-sm btn-search" type="submit"><i class="fa fa-search"></i></button>
+                                <button class="btn btn-outline-primary btn-sm btn-search" type="submit"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
-                        {% for facet in form.selected_facets %}
-                            <input type="hidden" name="selected_facets" value="{{ facet }}" />
-                        {% endfor %}
-                    </form>
+                    </div>
+                </div>
+                {% bootstrap_field form.start_date %}
+                {% bootstrap_field form.end_date %}
+            </div>
+
+            <div id="advancedSearch" class="row">
+                <div class="col-md-3 pt20">
+                    <select class="facet-select2" id="associated_people_facet" name="associated_people" multiple="multiple">
+                        {% if facets.fields.associated_people %}
+                            {% for ap in facets.fields.associated_people %}
+                                {% if ap.0 in selected_facets.associated_people %}
+                                    <option selected="selected" value="{{ ap.0 }}">{{ ap.0 }} ({{ ap.1 }})</option>
+                                {% else %}
+                                    <option value="{{ ap.0 }}">{{ ap.0 }} ({{ ap.1 }})</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option value="0">-- No person available with the selected filters --</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="col-md-3 pt20">
+                    <select class="facet-select2" id="subject_people_facet" name="subject_people" multiple="multiple">
+                        {% if facets.fields.subject_people %}
+                            {% for sp in facets.fields.subject_people %}
+                                {% if sp.0 in selected_facets.subject_people %}
+                                    <option selected="selected" value="{{ sp.0 }}">{{ sp.0 }} ({{ sp.1 }})</option>
+                                {% else %}
+                                    <option value="{{ sp.0 }}">{{ sp.0 }} ({{ sp.1 }})</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option value="0">-- No person available with the selected filters --</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="col-md-3 pt20">
+                    <select class="facet-select2" id="subject_corporations_facet" name="subject_corporations" multiple="multiple">
+                        {% if facets.fields.subject_corporations %}
+                            {% for sc in facets.fields.subject_corporations %}S
+                                {% if sc.0 in selected_facets.subject_corporations %}
+                                    <option selected="selected" value="{{ sc.0 }}">{{ sc.0 }} ({{ sc.1 }})</option>
+                                {% else %}
+                                    <option value="{{ sc.0 }}">{{ sc.0 }} ({{ sc.1 }})</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option value="0">-- No corporation available with the selected filters --</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="col-md-3 pt20">
+                    <select class="facet-select2" id="countries_facet" name="countries" multiple="multiple">
+                        {% if facets.fields.countries %}
+                            {% for sc in facets.fields.countries %}S
+                                {% if sc.0 in selected_facets.countries %}
+                                    <option selected="selected" value="{{ sc.0 }}">{{ sc.0 }} ({{ sc.1 }})</option>
+                                {% else %}
+                                    <option value="{{ sc.0 }}">{{ sc.0 }} ({{ sc.1 }})</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option value="0">-- No country available with the selected filters --</option>
+                        {% endif %}
+                    </select>
                 </div>
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col-md-12 pt30">
+                    <div id="slider"></div>
+                    <em class="form-text text-muted pull-left"><span id="date-start"></span></em>
+                    <em class="form-text text-muted pull-right"><span id="date-end"></span></em>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <div class="container-fluid pt30">
+    <div class="container-fluid">
+        <h4>Number of records: {{ page_obj.paginator.count }}</h4>
+    </div>
+
+    <div class="container-fluid pt10 pb30">
         <div class="row">
             {% for fec_entity in page_obj.object_list %}
                 <div class="col-md-2 mb40">

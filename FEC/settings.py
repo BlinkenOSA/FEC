@@ -17,6 +17,7 @@ PREREQ_APPS = [
     'pages',
     'search',
 
+    'bootstrap4',
     'bootstrap_pagination',
 
     'wagtail.wagtailforms',
@@ -36,6 +37,7 @@ PREREQ_APPS = [
     'condensedinlinepanel',
 
     'corsheaders',
+    'django_select2',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -142,8 +144,6 @@ DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 
 CORS_ORIGIN_WHITELIST = (
     'universalviewer.io',
-    'localhost:8000',
-    '127.0.0.1:8000'
 )
 
 BASE_PREZI_URI = 'http://127.0.0.1:8000/'
@@ -151,8 +151,7 @@ BASE_IMAGE_URI = 'http://iiif.osaarchivum.org/iiif/2/'
 
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:8983/solr/fec'
     },
 }

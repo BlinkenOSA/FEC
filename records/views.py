@@ -10,7 +10,7 @@ from django.conf import settings
 from records.forms import DateRangeSearchForm
 from records.models import FECEntity
 
-from haystack.generic_views import SearchView, FacetedSearchView
+from haystack.generic_views import FacetedSearchView
 
 
 class EntitySearchView(FacetedSearchView):
@@ -24,14 +24,34 @@ class EntitySearchView(FacetedSearchView):
                     'subject_people', 'subject_corporations']
     paginate_by = 24
 
+    def insert_into_data_struct(self, name, value, a_dict):
+        if not name in a_dict:
+            a_dict[name] = [value]
+        else:
+            a_dict[name].append(value)
+
     def get_context_data(self, **kwargs):
         context = super(EntitySearchView, self).get_context_data(**kwargs)
         context['iiif_server'] = settings.BASE_IMAGE_URI
+        global_start_date = FECEntity.objects.all().order_by("date").first().date
+        global_end_date = FECEntity.objects.all().order_by("-date").first().date
+        context['global_start_date'] = global_start_date
+        context['global_end_date'] = global_end_date
+        context['current_start_date'] = self.request.GET.get('start_date', global_start_date)
+        context['current_end_date'] = self.request.GET.get('end_date', global_end_date)
+
+        selected_facets = {}
+        sf = context['form'].selected_facets
+        for f in sf:
+            key, value = f.split(':')
+            self.insert_into_data_struct(key, value, selected_facets)
+        context['selected_facets'] = selected_facets
+
         return context
 
     def get_queryset(self):
         qs = super(EntitySearchView, self).get_queryset()
-        return qs.order_by('date_display', 'title_display')
+        return qs.order_by('date_display', 'title_display').facet('associated_people')
 
 
 class EntityDetailView(DetailView):

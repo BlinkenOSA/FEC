@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^record/', include('records.urls', namespace='record')),
+    url(r'^select2/', include('django_select2.urls')),
 
     url(r'', include(wagtail_urls)),
 ]

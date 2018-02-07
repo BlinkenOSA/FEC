@@ -1,0 +1,25 @@
+{
+  "name": "Free Europe Committee",
+  "homepage": "https://github.com/BlinkenOSA/FEC",
+  "authors": [
+    "JoshBone <jozsef.bone@gmail.com>"
+  ],
+  "description": "Packages for the Free Europe Comittee website for Blinken OSA",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "static/fec/bower_components"
+  ],
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "themify-icons": "^0.1.2",
+    "nouislider": "noUiSlider#^11.0.3",
+    "wnumb": "^1.1.0",
+    "select2": "^4.0.5"
+  }
+}
