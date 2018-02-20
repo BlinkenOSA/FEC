@@ -26,13 +26,13 @@
                     <div class="card mb10">
                         <div class="card-header accordion-header" role="tab" id="heading{{ forloop.counter }}">
                             <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                <a class="{% if not forloop.first %}collapsed{% endif %}" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
                                     {{ fb.question }}
                                 </a>
                             </h5>
                         </div>
 
-                        <div id="collapse{{ forloop.counter }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ forloop.counter }}">
+                        <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" role="tabpanel" aria-labelledby="heading{{ forloop.counter }}">
                             <div class="card-body">
                                     {{ fb.answer|safe }}
                             </div>
