@@ -123,7 +123,7 @@ USE_TZ = True
 
 WAGTAIL_SITE_NAME = 'Free Europe Commitee messages'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
