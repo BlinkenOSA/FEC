@@ -22,8 +22,8 @@
 {% endblock %}
 
 {% block counter %}
-    <div class="container pt90 pb50">
-        <div class="row mb30">
+    <div class="container pt50">
+        <div class="row">
             {% for cb in counter_blocks %}
                 <div class="col-md-6 col-lg-3 text-center mb40">
                     <h1 class="counter" data-from="0" data-to="{{ cb.counter }}" data-speed="5000" data-refresh-interval="50">{{ cb.counter }}</h1>
@@ -35,8 +35,8 @@
 {% endblock %}
 
 {% block badge %}
-    <div class="container pt90">
-        <div class="row pb60">
+    <div class="container pt50">
+        <div class="row">
             {% for bb in badge_blocks %}
             <div class="col-lg-4 mb30 wow zoomInUp" data-wow-delay="100ms" data-wow-duration=".4s"
                  style="visibility: visible; animation-duration: 0.4s; animation-delay: 100ms; animation-name: zoomInUp;">
