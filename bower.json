@@ -22,6 +22,6 @@
     "wnumb": "^1.1.0",
     "select2": "^4.0.5",
     "select2-bootstrap-theme": "^0.1.0-beta.10",
-    "Universal Viewer": "universalviewer#^2.0.2"
+    "uv": "universalviewer#^2.0.2"
   }
 }
