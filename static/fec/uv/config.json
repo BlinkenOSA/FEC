@@ -1,0 +1,9 @@
+{
+  "modules": {
+    "moreInfoRightPanel": {
+      "options": {
+        "panelOpen": true
+      }
+    }
+  }
+}
