@@ -16,6 +16,7 @@ PREREQ_APPS = [
     'haystack',
     'pages',
     'search',
+    'visualisation',
 
     'bootstrap4',
     'bootstrap_pagination',

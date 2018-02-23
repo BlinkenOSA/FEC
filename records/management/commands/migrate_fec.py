@@ -1,5 +1,6 @@
 import MySQLdb as mdb
 import dj_database_url
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management import BaseCommand, call_command
 
 from records.models import FECEntity, Place, Person, Country, Corporation
@@ -11,10 +12,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         db = dj_database_url.config(conn_max_age=600)
 
-        #call_command('loaddata', 'place')
-        #self.migrate_countries(db)
-        #self.migrate_corporations(db)
-        #self.migrate_people(db)
+        call_command('loaddata', 'place')
+        self.migrate_countries(db)
+        self.migrate_corporations(db)
+        self.migrate_people(db)
         self.migrate_fec_entity_records(db)
 
     def migrate_countries(self, db):
@@ -26,7 +27,7 @@ class Command(BaseCommand):
         cur.execute(sql)
         rows = cur.fetchall()
 
-        Country.objects.all().delete()
+        # Country.objects.all().delete()
 
         for row in rows:
             print("Adding country: %s" % row['Country'])
@@ -44,7 +45,7 @@ class Command(BaseCommand):
         cur.execute(sql)
         rows = cur.fetchall()
 
-        Corporation.objects.all().delete()
+        # Corporation.objects.all().delete()
 
         for row in rows:
             print("Adding corporation: %s" % row['Corporation'])
@@ -62,7 +63,7 @@ class Command(BaseCommand):
         cur.execute(sql)
         rows = cur.fetchall()
 
-        Person.objects.all().delete()
+        # Person.objects.all().delete()
 
         for row in rows:
             print("Adding person: %s" % row['Person'])
@@ -83,29 +84,34 @@ class Command(BaseCommand):
         cur.execute(sql)
         rows = cur.fetchall()
 
-        FECEntity.objects.all().delete()
+        # FECEntity.objects.all().delete()
 
         for row in rows:
             print("Adding document: %s" % row['DocName'])
 
-            place = Place.objects.get(place=row['AssociatedPlace'])
-
-            fec_entity = FECEntity(
-                id=row['ID'],
-                doc_name=row['DocName'],
-                title=row['Title'],
-                title_given=row['TitleGiven'],
-                date="%s-%s-%s" % (row['DateYY'], row['DateMM'], row['DateDD']),
-                pages=row['Pages'],
-                is_coded=row['IsCoded'],
-                is_handwritten=row['IsHandWritten'],
-                summary=row['Summary'],
-                note=row['Note'],
-                internal_note=row['InternalNote'],
-                confidential=row['NotToPublish'],
-                place=place
-            )
-            fec_entity.save()
+            try:
+                fec_entity = FECEntity.objects.get(doc_name=row['DocName'])
+            except ObjectDoesNotExist:
+                if row['AssociatedPlace'] == 'New York City':
+                    place = Place.objects.get(place='New York')
+                else:
+                    place = Place.objects.get(place=row['AssociatedPlace'])
+                fec_entity = FECEntity(
+                    id=row['ID'],
+                    doc_name=row['DocName'],
+                    title=row['Title'],
+                    title_given=row['TitleGiven'],
+                    date="%s-%s-%s" % (row['DateYY'], row['DateMM'], row['DateDD']),
+                    pages=row['Pages'],
+                    is_coded=row['IsCoded'],
+                    is_handwritten=row['IsHandWritten'],
+                    summary=row['Summary'],
+                    note=row['Note'],
+                    internal_note=row['InternalNote'],
+                    confidential=row['NotToPublish'],
+                    place=place
+                )
+                fec_entity.save()
 
             # AssociatedPeople
             sql = """

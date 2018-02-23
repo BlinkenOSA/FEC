@@ -41,7 +41,9 @@
             <div class="col-lg-4 mb30 wow zoomInUp" data-wow-delay="100ms" data-wow-duration=".4s"
                  style="visibility: visible; animation-duration: 0.4s; animation-delay: 100ms; animation-name: zoomInUp;">
                 <div class="icon-box icon-box-center">
-                    <i class="icon-hover-1 bg-dark fa {{ bb.badge_icon_class }} icon-hover-default"></i>
+                    <a href="{{ bb.url }}">
+                        <i class="icon-hover-1 bg-dark fa {{ bb.badge_icon_class }} icon-hover-default"></i>
+                    </a>
                     <h4>{{ bb.badge_header_text }}</h4>
                     <p>
                         {{ bb.badge_description }}
