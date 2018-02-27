@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+
+{% block page_content %}
+    {% image page.header_image width-1920 as header_photo %}
+    <div class="page-titles-img title-space-lg bg-parallax parallax-overlay mb80" data-jarallax='{"speed": 0.2}'
+         style='background-image: url( {{ header_photo.url }} )'>
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-12">
+                    <h1 class='text-uppercase'> {{ page.title }} </h1>
+                </div>
+            </div>
+        </div>
+    </div><!--page title end-->
+
+    <div class="container pb50">
+        <div class="row">
+            <div class="col-md-12 text-center mb40">
+                <h2>Thank you for contacting us! Our colleagues will be in touch with you shortly.</h2>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
