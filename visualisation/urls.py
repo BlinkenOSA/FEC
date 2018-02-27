@@ -1,6 +1,7 @@
 from django.conf.urls import url
-from records.views import EntitySearchView
+
+from visualisation.views import VisualisationView
 
 urlpatterns = [
-    url(r'^message_number/?$', EntitySearchView.as_view(), name='search'),
+    url(r'^vis/?$', VisualisationView.as_view(), name='chart')
 ]
