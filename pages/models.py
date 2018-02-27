@@ -2,11 +2,13 @@ from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from modelcluster.fields import ParentalKey
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailcore.models import Page, Orderable
+from wagtail.wagtailforms.models import AbstractFormField, AbstractEmailForm
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from condensedinlinepanel.edit_handlers import CondensedInlinePanel
+from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
 
 class HomePage(Page):
@@ -115,4 +117,28 @@ class TimelinePageItem(Orderable):
         FieldPanel('date'),
         FieldPanel('title'),
         FieldPanel('body', classname='full')
+    ]
+
+
+class ContactFormField(AbstractFormField):
+    page = ParentalKey('ContactFormPage', related_name='form_fields')
+
+
+class ContactFormPage(WagtailCaptchaEmailForm):
+    header_image = models.ForeignKey('wagtailimages.Image', related_name='+',
+                                     on_delete=models.PROTECT, blank=True, null=True)
+    body = RichTextField(blank=True, help_text='Edit the content you want to see before the form.')
+    thank_you_text = RichTextField(blank=True, help_text='Set the message users will see after submitting the form.')
+
+    content_panels = [
+        ImageChooserPanel('header_image'),
+        FieldPanel('title', classname="full title"),
+        FieldPanel('body', classname="full"),
+        FieldPanel('thank_you_text', classname="full"),
+        InlinePanel('form_fields', label="Form fields"),
+        MultiFieldPanel([
+            FieldPanel('to_address'),
+            FieldPanel('from_address'),
+            FieldPanel('subject'),
+        ], "Email notification")
     ]
