@@ -141,3 +141,8 @@
 .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice__remove {
     color: #FFF;
 }
+
+.form-text {
+    font-size: 65%;
+    margin: 0;
+}
