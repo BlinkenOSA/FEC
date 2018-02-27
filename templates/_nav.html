@@ -33,15 +33,19 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Data</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="dropdown-item">Data Visualisation</a></li>
+                        <li><a href="{% url 'visualisation:chart' %}" class="dropdown-item">Data Visualisation</a></li>
                         <li><a href="#" class="dropdown-item">Raw data</a></li>
                     </ul>
                 </li>
-                <li class="nav-item {% if 'timeline' in request.path %}active{% endif %}">
-                    <a class="nav-link" href="/timeline">History</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">History</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/collection-history-timeline" class="dropdown-item">Collection History</a></li>
+                        <li><a href="/fec-rfe-history" class="dropdown-item">FEC/RFE History 1949-1973</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="/contact-us">Contact</a>
                 </li>
             </ul>
          </div>
