@@ -108,3 +108,4 @@ ENV/
 /static/fec/css/style.css
 /static/fec/js/assan.custom.js
 /static/fec/bower_components
+/static/fec/smart-form
