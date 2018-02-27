@@ -33,6 +33,8 @@ PREREQ_APPS = [
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
 
+    'captcha',
+    'wagtailcaptcha',
     'modelcluster',
     'taggit',
     'condensedinlinepanel',
@@ -158,6 +160,6 @@ HAYSTACK_CONNECTIONS = {
 }
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
