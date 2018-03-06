@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block page_js %}
+    <script src="{% static 'fec/bower_components/cytoscape/dist/cytoscape.min.js' %}"></script>
+    <script src="{% static 'fec/js/fec_graph.js' %}"></script>
+{% endblock %}
+
+{% block page_content %}
+    <div class="page-titles-img title-space-lg bg-parallax parallax-overlay" data-jarallax='{"speed": 0.2}'
+         style='background-image: url({{ header_img }})'>
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-12">
+                    <h1 class='text-uppercase'>{{ object.title }}</h1>
+                    <h3 class="text-uppercase">{{ object.date }}</h3>
+                </div>
+            </div>
+        </div>
+    </div><!--page title end-->
+
+    <div class="container-full mb40">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="cy"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

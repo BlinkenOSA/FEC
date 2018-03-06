@@ -7,3 +7,7 @@ from django.views.generic import TemplateView
 
 class VisualisationView(TemplateView):
     template_name = 'visalisation/vis.html'
+
+
+class GraphView(TemplateView):
+    template_name = 'visalisation/graph.html'
