@@ -33,8 +33,8 @@ class EntitySearchView(FacetedSearchView):
     def get_context_data(self, **kwargs):
         context = super(EntitySearchView, self).get_context_data(**kwargs)
         context['iiif_server'] = settings.BASE_IMAGE_URI
-        global_start_date = FECEntity.objects.all().order_by("date").first().date
-        global_end_date = FECEntity.objects.all().order_by("-date").first().date
+        global_start_date = FECEntity.objects.all().order_by("date").first().date.strftime('%Y-%m-%d')
+        global_end_date = FECEntity.objects.all().order_by("-date").first().date.strftime('%Y-%m-%d')
         context['global_start_date'] = global_start_date
         context['global_end_date'] = global_end_date
         context['current_start_date'] = self.request.GET.get('start_date', global_start_date)
