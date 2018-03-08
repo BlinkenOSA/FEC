@@ -5,27 +5,28 @@ function timestamp(str){
     return new Date(str).getTime();
 }
 
-noUiSlider.create(dateSlider, {
-// Create two timestamps to define a range.
+var noUiOpts = {
     range: {
         min: timestamp(global_start_date),
         max: timestamp(global_end_date)
     },
 
-// Steps of one day
-    step: 1 * 24 * 60 * 60 * 1000,
+    // Steps of one day
+    step: 24 * 60 * 60 * 1000,
 
-// Two more timestamps indicate the handle starting positions.
+    // Two more timestamps indicate the handle starting positions.
     start: [ timestamp(current_start_date), timestamp(current_end_date) ],
 
     connect: true,
     behaviour: 'drag',
 
-// No decimals
+    // No decimals
 	format: wNumb({
 		decimals: 0
 	})
-});
+}
+
+noUiSlider.create(dateSlider, noUiOpts);
 
 var dateDisplayValues = [
 	document.getElementById('date-start'),
