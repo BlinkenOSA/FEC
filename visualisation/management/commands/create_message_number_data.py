@@ -20,14 +20,17 @@ class Command(BaseCommand):
         people = OrderedDict()
 
         for year in range(fec_first.date.year, fec_last.date.year+1):
-            for week in range(0, 54):
-                week = "%04dW%02d" % (year, week)
+            for week in range(1, 54):
+                week = "%04d week %02d" % (year, week)
                 countries[week] = dict()
                 people[week] = dict()
                 total_number[week] = 0
 
         for fec in fec_records.iterator():
-            week = fec.date.strftime('%YW%W')
+            if fec.date.strftime('%W') == '00':
+                week = fec.date.strftime('%Y week ') + '53'
+            else:
+                week = fec.date.strftime('%Y week %W')
 
             for country in fec.countries.all():
                 if country.country not in countries[week].keys():

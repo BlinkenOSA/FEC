@@ -64,9 +64,9 @@ class EntityDetailView(DetailView):
             reverse('record:manifest', args=[context['fecentity'].id]))
 
         img_id = urllib.quote_plus(
-            "fec/%s/%s_%04d.jpg" % (self.object.doc_name[:2],
+            "fec/%s/%s_%s.jpg" % (self.object.doc_name[:2],
                                   self.object.doc_name[:2],
-                                  int(self.object.doc_name[3:])))
+                                  self.object.doc_name[3:]))
 
         context['header_img'] = "%s%s/full/full/0/default.jpg" % (
             settings.BASE_IMAGE_URI,
@@ -104,10 +104,23 @@ class EntityManifestView(JSONResponseMixin, DetailView):
             # Create a canvas with uri slug of page-p, and label of Page 1
             canvas_id = "fec-%s-page-%s" % (fec_entity.doc_name, str(p))
             cvs = seq.canvas(ident=canvas_id, label="Page %s" % p)
-            image_id = urllib.quote_plus(
-                "fec/%s/%s_%04d.jpg" % (fec_entity.doc_name[:2],
-                                        fec_entity.doc_name[:2],
-                                        int(fec_entity.doc_name[3:])+p-1))
+            if fec_entity.doc_name[-1].isdigit():
+                image_id = urllib.quote_plus(
+                    "fec/%s/%s_%04d.jpg" % (fec_entity.doc_name[:2],
+                                            fec_entity.doc_name[:2],
+                                            int(fec_entity.doc_name[3:])+p-1))
+            else:
+                if p == 1:
+                    image_id = urllib.quote_plus(
+                        "fec/%s/%s_%s.jpg" % (fec_entity.doc_name[:2],
+                                                fec_entity.doc_name[:2],
+                                                fec_entity.doc_name[3:]))
+                else:
+                    image_id = urllib.quote_plus(
+                        "fec/%s/%s_%s.jpg" % (fec_entity.doc_name[:2],
+                                                fec_entity.doc_name[:2],
+                                                'fec_entity.doc_name[3:]%s' % p-1))
+
             cvs.set_image_annotation(image_id, iiif=True)
 
         return self.render_json_response(manifest.toJSON(top=True))

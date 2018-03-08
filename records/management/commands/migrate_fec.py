@@ -1,4 +1,4 @@
-import MySQLdb as mdb
+import mysql.connector
 import dj_database_url
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.management import BaseCommand, call_command
@@ -13,21 +13,53 @@ class Command(BaseCommand):
         db = dj_database_url.config(conn_max_age=600)
 
         call_command('loaddata', 'place')
+        self.clean_records(db)
         self.migrate_countries(db)
         self.migrate_corporations(db)
         self.migrate_people(db)
         self.migrate_fec_entity_records(db)
 
+    def clean_records(self, db):
+        con = mysql.connector.connect(user=db['USER'], host=db['HOST'], password=db['PASSWORD'], database=db['NAME'])
+        cursor = con.cursor()
+
+        sql = "DELETE FROM legacy_FECEntity WHERE legacy_FECEntity.InternalNote LIKE '%Competely illegible%' OR " \
+              "legacy_FECEntity.InternalNote LIKE '%Competly illegible%' OR " \
+              "legacy_FECEntity.InternalNote LIKE '%Completely illegible%' OR " \
+              "legacy_FECEntity.InternalNote LIKE '%Completly illegible%'"
+        cursor.execute(sql)
+        con.commit()
+
+        sql = "UPDATE legacy_FECEntity SET legacy_FECEntity.AssociatedPlace = 'New York' " \
+              "WHERE legacy_FECEntity.Title LIKE '%NYC%' OR legacy_FECEntity.Title LIKE '%NCY%' OR " \
+              "legacy_FECEntity.Title LIKE '%NY%'"
+        cursor.execute(sql)
+        con.commit()
+
+        sql = "UPDATE legacy_FECEntity SET legacy_FECEntity.AssociatedPlace = 'Lisbon' " \
+              "WHERE legacy_FECEntity.Title LIKE '%LIS%'"
+        cursor.execute(sql)
+        con.commit()
+
+        sql = "UPDATE legacy_FECEntity SET legacy_FECEntity.AssociatedPlace = 'Munich' " \
+              "WHERE legacy_FECEntity.Title LIKE '%MUN%' OR legacy_FECEntity.Title LIKE '%MU%' " \
+              "OR legacy_FECEntity.Title LIKE '%MUF%'"
+        cursor.execute(sql)
+        con.commit()
+
+        cursor.close()
+        con.close()
+
     def migrate_countries(self, db):
-        con = mdb.connect(user=db['USER'], passwd=db['PASSWORD'], db=db['NAME'], charset='utf8')
-        cur = con.cursor(mdb.cursors.DictCursor)
+        con = mysql.connector.connect(user=db['USER'], host=db['HOST'], password=db['PASSWORD'], database=db['NAME'])
+        cur = con.cursor(dictionary=True)
 
         sql = "SELECT * FROM legacy_countries"
 
         cur.execute(sql)
         rows = cur.fetchall()
 
-        # Country.objects.all().delete()
+        Country.objects.all().delete()
 
         for row in rows:
             print("Adding country: %s" % row['Country'])
@@ -37,15 +69,15 @@ class Command(BaseCommand):
             country.save()
 
     def migrate_corporations(self, db):
-        con = mdb.connect(user=db['USER'], passwd=db['PASSWORD'], db=db['NAME'], charset='utf8')
-        cur = con.cursor(mdb.cursors.DictCursor)
+        con = mysql.connector.connect(user=db['USER'], host=db['HOST'], password=db['PASSWORD'], database=db['NAME'])
+        cur = con.cursor(dictionary=True)
 
         sql = "SELECT * FROM legacy_corporations"
 
         cur.execute(sql)
         rows = cur.fetchall()
 
-        # Corporation.objects.all().delete()
+        Corporation.objects.all().delete()
 
         for row in rows:
             print("Adding corporation: %s" % row['Corporation'])
@@ -55,15 +87,15 @@ class Command(BaseCommand):
             corporation.save()
 
     def migrate_people(self, db):
-        con = mdb.connect(user=db['USER'], passwd=db['PASSWORD'], db=db['NAME'], charset='utf8')
-        cur = con.cursor(mdb.cursors.DictCursor)
+        con = mysql.connector.connect(user=db['USER'], host=db['HOST'], password=db['PASSWORD'], database=db['NAME'])
+        cur = con.cursor(dictionary=True)
 
         sql = "SELECT * FROM legacy_people"
 
         cur.execute(sql)
         rows = cur.fetchall()
 
-        # Person.objects.all().delete()
+        Person.objects.all().delete()
 
         for row in rows:
             print("Adding person: %s" % row['Person'])
@@ -76,9 +108,9 @@ class Command(BaseCommand):
 
     def migrate_fec_entity_records(self, db):
         skip = False
-        con = mdb.connect(user=db['USER'], passwd=db['PASSWORD'], db=db['NAME'], charset='utf8')
-        cur = con.cursor(mdb.cursors.DictCursor)
-        cur_sub = con.cursor(mdb.cursors.DictCursor)
+        con = mysql.connector.connect(user=db['USER'], host=db['HOST'], password=db['PASSWORD'], database=db['NAME'])
+        cur = con.cursor(dictionary=True)
+        cur_sub = con.cursor(dictionary=True)
 
         sql = "SELECT * FROM legacy_FECentity WHERE " \
               "Title IS NOT NULL AND AssociatedPlace IS NOT NULL AND DateDD IS NOT NULL " \
@@ -118,7 +150,9 @@ class Command(BaseCommand):
                 )
                 try:
                     fec_entity.save()
+                    skip = False
                 except ValidationError:
+                    print "I'm skipping"
                     skip = True
 
             if not skip:
@@ -139,6 +173,7 @@ class Command(BaseCommand):
                 for sub_row in sub_rows:
                     person = Person.objects.filter(person=sub_row['Person'].strip().split(', ')[0]).first()
                     fec_entity.associated_people.add(person)
+                    print("AP: %s" % person.person)
 
                 # AssociatedCorporations
                 sql = """

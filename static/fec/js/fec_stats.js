@@ -49,11 +49,15 @@ Plotly.d3.csv('/static/fec/stat/fec_number_of_reports.csv', function(err, csv_nu
 
             function getCountryData(chosenCountry) {
                 currentCountryTotal = [];
-                currentCountryWeek = [];
+                currentCountryWeek = allWeeksD1;
+                for (var i = 0 ; i < allWeeksD1.length; i++) {
+                    currentCountryTotal.push(0);
+                }
+
                 for (var i = 0 ; i < allCountries.length ; i++){
                     if ( allCountries[i] === chosenCountry ) {
-                        currentCountryTotal.push(allCountryTotals[i]);
-                        currentCountryWeek.push(allWeeksD2[i]);
+                        var idx = currentCountryWeek.indexOf(allWeeksD2[i]);
+                        currentCountryTotal[idx]=(allCountryTotals[i]);
                     }
                 }
             }
@@ -62,7 +66,7 @@ Plotly.d3.csv('/static/fec/stat/fec_number_of_reports.csv', function(err, csv_nu
                 getCountryData(chosenCountry);
 
                 trace2 = {
-                    x: currentCountryWeek,
+                    x: allWeeksD1,
                     y: currentCountryTotal,
                     mode: 'lines+markers',
                     name: chosenCountry
@@ -87,11 +91,15 @@ Plotly.d3.csv('/static/fec/stat/fec_number_of_reports.csv', function(err, csv_nu
 
             function getPersonData(chosenPerson) {
                 currentPersonTotal = [];
-                currentPersonWeek = [];
-                for (var i = 0 ; i < allPeople.length ; i++){
+                currentPersonWeek = allWeeksD1;
+                for (var i = 0 ; i < allWeeksD1.length; i++) {
+                    currentPersonTotal.push(0);
+                }
+
+                for (var i = 0 ; i < allPeopleTotals.length ; i++){
                     if ( allPeople[i] === chosenPerson ) {
-                        currentPersonTotal.push(allPeopleTotals[i]);
-                        currentPersonWeek.push(allWeeksD3[i]);
+                        var idx = currentPersonWeek.indexOf(allWeeksD3[i]);
+                        currentPersonTotal[idx]=(allPeopleTotals[i]);
                     }
                 }
             }
@@ -150,7 +158,10 @@ Plotly.d3.csv('/static/fec/stat/fec_number_of_reports.csv', function(err, csv_nu
 
             function draw() {
                 // Global additions
-                var layout = { title: "Free Europe Committee Statistics" };
+                var layout = {
+                    title: "Free Europe Committee Statistics",
+                    height: 600
+                };
                 var data = [trace1, trace2, trace3];
 
                 Plotly.newPlot('plotdiv', data, layout);
