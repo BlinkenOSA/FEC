@@ -80,7 +80,7 @@ class Command(BaseCommand):
         Corporation.objects.all().delete()
 
         for row in rows:
-            print("Adding corporation: %s" % row['Corporation'])
+            print("Adding corporation: %s" % row['Corporation'].encode('utf-8'))
             corporation = Corporation.objects.get_or_create(
                 corporation=row['Corporation']
             )[0]
@@ -98,7 +98,7 @@ class Command(BaseCommand):
         Person.objects.all().delete()
 
         for row in rows:
-            print("Adding person: %s" % row['Person'])
+            print("Adding person: %s" % row['Person'].encode('utf-8'))
             person_record = row['Person'].strip().split(', ')
 
             person = Person.objects.get_or_create(
@@ -112,7 +112,7 @@ class Command(BaseCommand):
         cur = con.cursor(dictionary=True)
         cur_sub = con.cursor(dictionary=True)
 
-        sql = "SELECT * FROM legacy_FECentity WHERE " \
+        sql = "SELECT * FROM legacy_FECEntity WHERE " \
               "Title IS NOT NULL AND AssociatedPlace IS NOT NULL AND DateDD IS NOT NULL " \
               "ORDER BY DocName"
 
