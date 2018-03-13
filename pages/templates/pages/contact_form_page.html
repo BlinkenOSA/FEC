@@ -51,10 +51,7 @@
                 </div>
             </div>
             <div class="col-md-8 mb40">
-                <h2>Nice to hear from you</h2>
-                <p>
-                    Suspendisse ut interdum lectus. Integer ac neque faucibus, venenatis nisl quis, pellentesque lacus. Integer et ipsum sit amet dui ultrices hendrerit. Pellentesque leo massa, suscipit a felis non, posuere convallis velit. Sed tincidunt lacinia velit et aliquam.
-                </p>
+                <h2>{{ page.body|safe }}</h2>
                 <form action="{% pageurl page %}" method="POST" id="smart-form">
                     {% csrf_token %}
                     {% bootstrap_form form %}
