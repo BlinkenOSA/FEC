@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load wagtailimages_tags %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'fec/bower_components/select2/dist/css/select2.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'fec/bower_components/select2-bootstrap-theme/dist/select2-bootstrap.min.css' %}" type="text/css" />
+{% endblock %}
+
+{% block page_js %}
+    <script src="{% static 'fec/bower_components/select2/dist/js/select2.min.js' %}"></script>
+    <script src="{% static 'fec/bower_components/plotlyjs/plotly.js' %}"></script>
+    <script src="{% static 'fec/js/fec_stats.js' %}"></script>
+{% endblock %}
+
+{% block page_content %}
+    {% image page.header_image original as header_photo %}
+
+    <div class="page-titles-img title-space-lg bg-parallax parallax-overlay" data-jarallax='{"speed": 0.2}'
+         style='background-image: url({{ header_photo.url }})'>
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-12">
+                    <h1 class='text-uppercase'>{{ page.title }}</h1>
+                </div>
+            </div>
+        </div>
+    </div><!--page title end-->
+
+    <div class="container pt30 mb40">
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{ page.upper_text|safe }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bubbleplot" data-num="0">
+                    <div class="plot" id="plotdiv"></div>
+                    <div class="control-row row">
+                        <div class="col-md-6">
+                            <label>Country:</label>
+                            <select class="countrydata"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Person:</label>
+                            <select class="persondata"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb40">
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{ page.graph_slider_text|safe }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="carousel-image owl-carousel owl-theme">
+                    {% for slider in slider_graphs %}
+                        {% image slider.image original as slider_image %}
+
+                        <div class="item">
+                            <img src="{{ slider_image.url }}" alt="" class="img-fluid">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -16,12 +16,14 @@ class HomePage(Page):
     hero_text_top = models.CharField(max_length=100, blank=True)
     hero_text_title = models.CharField(max_length=100)
     hero_text_motto = models.CharField(max_length=100, blank=True)
+    about_text = RichTextField(blank=True, null=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('hero_video_url'),
         FieldPanel('hero_text_top'),
         FieldPanel('hero_text_title'),
         FieldPanel('hero_text_motto'),
+        FieldPanel('about_text', classname='full'),
         CondensedInlinePanel('counters', label="Counters", card_header_from_field="counter_text"),
         CondensedInlinePanel('badges', label="Badges", card_header_from_field="badge_header_text")
     ]
@@ -58,6 +60,33 @@ class HomePageBadgePanel(Orderable):
         FieldPanel('badge_icon_class'),
         FieldPanel('badge_header_text'),
         FieldPanel('badge_description')
+    ]
+
+
+class GraphPage(Page):
+    header_image = models.ForeignKey('wagtailimages.Image', related_name='+', on_delete=models.PROTECT)
+    upper_text = RichTextField(blank=True, null=True)
+    graph_slider_text = RichTextField(blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('header_image'),
+        FieldPanel('upper_text', classname='full'),
+        FieldPanel('graph_slider_text', classname='full'),
+        CondensedInlinePanel('slider_images', label="Slider Images")
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super(GraphPage, self).get_context(request)
+        context['slider_graphs'] = self.slider_images.all()
+        return context
+
+
+class GraphPageSliderImage(Orderable):
+    page = ParentalKey('GraphPage', related_name='slider_images', blank=True, null=True)
+    image = models.ForeignKey('wagtailimages.Image', related_name='+', on_delete=models.PROTECT)
+
+    panels = [
+        ImageChooserPanel('image'),
     ]
 
 
