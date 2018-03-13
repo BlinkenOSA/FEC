@@ -143,12 +143,18 @@
 }
 
 .form-text {
-    font-size: 65%;
     margin: 0;
+    padding-top: 10px;
 }
 
 #cy {
   width: 100%;
   height: 500px;
   display: block;
+}
+
+.navbar-toggler-right {
+    position: absolute;
+    right: 0rem;
+    top: 0;
 }
