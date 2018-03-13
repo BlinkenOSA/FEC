@@ -72,6 +72,11 @@ $('#countries_facet').select2({
     placeholder: "Countries"
 });
 
+$('#place_facet').select2({
+    theme: "bootstrap",
+    placeholder: "Associated Places"
+});
+
 $('.facet-select2').on('change', function (e) {
     $( "#searchform" ).submit();
 });

@@ -16,6 +16,7 @@ class DateRangeSearchForm(FacetedSearchForm):
         self.selected_facets.extend(self.get_facet('subject_people', **kwargs))
         self.selected_facets.extend(self.get_facet('subject_corporations', **kwargs))
         self.selected_facets.extend(self.get_facet('countries', **kwargs))
+        self.selected_facets.extend(self.get_facet('place', **kwargs))
 
 
     def get_facet(self, facet_name, **kwargs):
@@ -52,6 +53,7 @@ class DateRangeSearchForm(FacetedSearchForm):
         sqs = sqs.facet('countries', limit=-1, sort='count', mincount=1)
         sqs = sqs.facet('subject_people', limit=-1, sort='count', mincount=1)
         sqs = sqs.facet('subject_corporations', limit=-1, sort='count', mincount=1)
+        sqs = sqs.facet('place', limit=-1, sort='count', mincount=1)
 
         return sqs.order_by('date_display', 'title_display')
 

@@ -38,7 +38,7 @@
     <div class="container pt30">
         <form id="searchform" action="" method="get">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <div class="well">
                         <div class="input-group">
                             <input type="text" name="q" class="form-control form-control-sm" placeholder="Enter your search text..." value="{{ query }}">
@@ -47,6 +47,21 @@
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="facet-select2" id="place_facet" name="place" multiple="multiple">
+                        {% if facets.fields.place %}
+                            {% for pl in facets.fields.place %}S
+                                {% if pl.0 in selected_facets.place %}
+                                    <option selected="selected" value="{{ pl.0 }}">{{ pl.0 }} ({{ pl.1 }})</option>
+                                {% else %}
+                                    <option value="{{ pl.0 }}">{{ pl.0 }} ({{ pl.1 }})</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option value="0">-- No place is available with the selected filters --</option>
+                        {% endif %}
+                    </select>
                 </div>
                 {% bootstrap_field form.start_date %}
                 {% bootstrap_field form.end_date %}
