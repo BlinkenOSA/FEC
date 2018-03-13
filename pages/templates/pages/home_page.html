@@ -13,7 +13,12 @@
                             <p class="lead text-white-gray">
                                 {{ page.hero_text_motto }}
                             </p>
-                            <a href="#counter" class="btn btn-lg btn-white">About</a>
+                            <a class="popup-content btn btn-white" href="#popup-about">About</a>
+                            <!-- form itself -->
+                            <div  id="popup-about" class="mfp-hide popup-content-area white-popup">
+                                <h4>About</h4><hr>
+                                {{ page.about_text|safe }}
+                            </div>
                         </div>
                     </div>
                 </div>
