@@ -1,5 +1,6 @@
 {% extends 'base_home.html' %}
 {% load staticfiles %}
+{% load wagtailcore_tags %}
 
 {% block hero %}
     <div class="bg-parallax fullscreen parallax-overlay" data-jarallax-video="{{ page.hero_video_url }}" data-jarallax-original-styles="null">
@@ -17,7 +18,7 @@
                             <!-- form itself -->
                             <div  id="popup-about" class="mfp-hide popup-content-area white-popup">
                                 <h4>About</h4><hr>
-                                {{ page.about_text|safe }}
+                                {{ page.about_text|richtext }}
                             </div>
                         </div>
                     </div>

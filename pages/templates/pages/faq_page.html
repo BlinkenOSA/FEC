@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load wagtailimages_tags %}
-
+{% load wagtailcore_tags %}
 {% block page_content %}
 
     {% image page.header_image width-1920 as header_photo %}
@@ -32,7 +32,7 @@
 
                         <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" role="tabpanel" aria-labelledby="heading{{ forloop.counter }}">
                             <div class="card-body">
-                                    {{ fb.answer|safe }}
+                                    {{ fb.answer|richtext }}
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                 <div class="col-md-8 ml-auto mr-auto text-center">
                     <h2 class="text-uppercase">{{ page.body_title }}</h2>
                     <p>
-                        {{ page.body_text|safe }}
+                        {{ page.body_text|richtext }}
                     </p>
                     <a href="/contact-us" class="btn btn-lg btn-rounded btn-primary">Contact us</a>
                 </div>

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
 
 {% block page_content %}
 
@@ -28,7 +29,7 @@
                             {% image tb.header_image width-1920 class='img-fluid mb20' %}
                             <h3>{{ tb.title }}</h3>
                             <p>
-                                {{ tb.body|safe }}
+                                {{ tb.body|richtext }}
                             </p>
                         </div>
                     </div>

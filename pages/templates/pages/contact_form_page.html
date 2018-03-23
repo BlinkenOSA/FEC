@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="col-md-8 mb40">
-                <h2>{{ page.body|safe }}</h2>
+                <h2>{{ page.body|richtext }}</h2>
                 <form action="{% pageurl page %}" method="POST" id="smart-form">
                     {% csrf_token %}
                     {% bootstrap_form form %}
