@@ -16,7 +16,7 @@ class HomePage(Page):
     hero_text_top = models.CharField(max_length=100, blank=True)
     hero_text_title = models.CharField(max_length=100)
     hero_text_motto = models.CharField(max_length=100, blank=True)
-    about_text = RichTextField(blank=True, null=True)
+    about_text = RichTextField(blank=True, null=True, editor='tinymce')
 
     content_panels = Page.content_panels + [
         FieldPanel('hero_video_url'),
@@ -65,8 +65,8 @@ class HomePageBadgePanel(Orderable):
 
 class GraphPage(Page):
     header_image = models.ForeignKey('wagtailimages.Image', related_name='+', on_delete=models.PROTECT)
-    upper_text = RichTextField(blank=True, null=True)
-    graph_slider_text = RichTextField(blank=True, null=True)
+    upper_text = RichTextField(blank=True, null=True, editor='tinymce')
+    graph_slider_text = RichTextField(blank=True, null=True, editor='tinymce')
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header_image'),
@@ -93,7 +93,7 @@ class GraphPageSliderImage(Orderable):
 class FaqPage(Page):
     header_image = models.ForeignKey('wagtailimages.Image', related_name='+', on_delete=models.PROTECT)
     body_title = models.CharField(max_length=100, blank=True, null=True)
-    body_text = RichTextField(blank=True, null=True)
+    body_text = RichTextField(blank=True, null=True, editor='tinymce')
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header_image'),
@@ -112,7 +112,7 @@ class FaqPage(Page):
 class FaqPageItem(Orderable):
     page = ParentalKey('FaqPage', related_name='faq_items', blank=True, null=True)
     question = models.CharField(max_length=150)
-    answer = RichTextField()
+    answer = RichTextField(editor='tinymce')
 
     panels = [
         FieldPanel('question'),
@@ -139,7 +139,7 @@ class TimelinePageItem(Orderable):
     header_image = models.ForeignKey('wagtailimages.Image', related_name='+', on_delete=models.PROTECT, blank=True, null=True)
     date = models.DateField()
     title = models.CharField(max_length=150)
-    body = RichTextField()
+    body = RichTextField(editor='tinymce')
 
     panels = [
         ImageChooserPanel('header_image'),

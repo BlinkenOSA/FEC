@@ -32,7 +32,7 @@ PREREQ_APPS = [
     'wagtail.wagtailsearch',
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
-
+    'wagtailtinymce',
     'captcha',
     'wagtailcaptcha',
     'modelcluster',
@@ -156,6 +156,15 @@ HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
         'URL': 'http://127.0.0.1:8983/solr/fec'
+    },
+}
+
+WAGTAILADMIN_RICH_TEXT_EDITORS = {
+    'default': {
+        'WIDGET': 'wagtail.wagtailadmin.rich_text.HalloRichTextArea'
+    },
+    'tinymce': {
+        'WIDGET': 'FEC.tinymce_editor_config.TinyMCEEditorObject'
     },
 }
 
