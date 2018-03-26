@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.utils import translation
 from wagtailtinymce.rich_text import TinyMCERichTextArea
 
 
@@ -23,5 +25,6 @@ class TinyMCEEditorObject(TinyMCERichTextArea):
         }
 
     def __init__(self, attrs=None, **kwargs):
+        translation.trans_real.activate(settings.LANGUAGE_CODE)
         super(TinyMCEEditorObject, self).__init__(attrs)
         self.kwargs.update(self.options)

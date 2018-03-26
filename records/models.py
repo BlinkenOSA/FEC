@@ -42,13 +42,13 @@ class FECEntity(models.Model):
 
     place = models.ForeignKey('Place', default=1)
 
-    associated_people = models.ManyToManyField('Person', related_name='associated_people')
-    associated_corporations = models.ManyToManyField('Corporation', related_name='associated_corporations')
+    associated_people = models.ManyToManyField('Person', related_name='associated_people', blank=True)
+    associated_corporations = models.ManyToManyField('Corporation', related_name='associated_corporations', blank=True)
 
-    countries = models.ManyToManyField('Country')
+    countries = models.ManyToManyField('Country', blank=True)
 
-    subject_people = models.ManyToManyField('Person', related_name='subject_people')
-    subject_corporations = models.ManyToManyField('Corporation', related_name='subject_corporations')
+    subject_people = models.ManyToManyField('Person', related_name='subject_people', blank=True)
+    subject_corporations = models.ManyToManyField('Corporation', related_name='subject_corporations', blank=True)
 
     def __str__(self):
         return " - ".join(filter(None, (self.title, self.title_given)))
