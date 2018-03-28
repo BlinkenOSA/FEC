@@ -40,7 +40,7 @@ class FECEntityAdmin(TabbedModelAdmin):
 
     tab_contributors = (
         AssociatedPersonInline,
-        (None, {
+        ('Associated Corporations', {
             'fields': ('associated_corporations',)
         })
     )

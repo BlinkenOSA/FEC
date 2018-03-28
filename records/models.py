@@ -36,26 +36,30 @@ class Country(models.Model):
 
 class FECEntity(models.Model):
     id = models.AutoField(primary_key=True)
-    doc_name = models.CharField(max_length=100)
-    title = models.CharField(max_length=150, blank=True)
-    title_given = models.CharField(max_length=150, blank=True, null=True)
-    date = models.DateField(blank=True, null=True)
-    pages = models.IntegerField()
-    is_coded = models.BooleanField(default=False)
-    is_handwritten = models.BooleanField(default=False)
+    doc_name = models.CharField(max_length=100, help_text="The number of the telex message. Example: 35_0015")
+    title = models.CharField(max_length=150, blank=True, help_text="Title of the telex message. Example: MUN-4")
+    title_given = models.CharField(max_length=150, blank=True, null=True,
+                                   help_text="Given title. Example: New York Guild Contract")
+    date = models.DateField(blank=True, null=True, help_text="Date of the telex message. Example: 1960-04-15")
+    pages = models.IntegerField(help_text="Number of the pages")
+    is_coded = models.BooleanField(default=False, verbose_name="Message is a coded message.")
+    is_handwritten = models.BooleanField(default=False, verbose_name="Message is handwritten.")
     summary = models.TextField(blank=True, null=True)
     note = models.CharField(max_length=200, blank=True, null=True)
     internal_note = models.TextField(blank=True, null=True)
-    confidential = models.BooleanField()
+    confidential = models.BooleanField(default=False, verbose_name="Message is confidential.")
 
-    place = models.ForeignKey('Place', default=1)
+    place = models.ForeignKey('Place', default=1, help_text="Origin of the telex message. Example: MUN-4")
 
-    associated_corporations = models.ManyToManyField('Corporation', related_name='associated_corporations', blank=True)
+    associated_corporations = models.ManyToManyField('Corporation', related_name='associated_corporations', blank=True,
+                                                     help_text="Corporations appearing in the header.")
 
-    countries = models.ManyToManyField('Country', blank=True)
+    countries = models.ManyToManyField('Country', blank=True, help_text="Countries mentioned in the telex message.")
 
-    subject_people = models.ManyToManyField('Person', related_name='subject_people', blank=True)
-    subject_corporations = models.ManyToManyField('Corporation', related_name='subject_corporations', blank=True)
+    subject_people = models.ManyToManyField('Person', related_name='subject_people', blank=True,
+                                            help_text="People mentioned in the telex message.")
+    subject_corporations = models.ManyToManyField('Corporation', related_name='subject_corporations', blank=True,
+                                                  help_text="Corporations mentioned in the telex message.")
 
     def __str__(self):
         return " - ".join(filter(None, (self.title, self.title_given)))
@@ -84,7 +88,7 @@ class PersonRole(models.Model):
 class AssociatedPerson(models.Model):
     id = models.AutoField(primary_key=True)
     fec_entity = models.ForeignKey('FECEntity', related_name='associated_people')
-    person = models.ForeignKey('Person')
+    person = models.ForeignKey('Person', help_text="Person appears in the header.")
     role = models.ForeignKey('PersonRole', blank=True, null=True)
 
     class Meta:
