@@ -1,0 +1,14 @@
+- model: records.PersonRole
+  pk: 1
+  fields:
+    role: From
+
+- model: records.PersonRole
+  pk: 2
+  fields:
+    role: To
+
+- model: records.PersonRole
+  pk: 3
+  fields:
+    role: Copy

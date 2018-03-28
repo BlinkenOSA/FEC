@@ -25,6 +25,7 @@ from FEC import settings
 urlpatterns = [
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'^admin/', admin.site.urls),
+    url('grappelli/', include('grappelli.urls')),
 
     url(r'^record/', include('records.urls', namespace='record')),
     url(r'^select2/', include('django_select2.urls')),

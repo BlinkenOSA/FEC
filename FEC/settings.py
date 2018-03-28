@@ -39,6 +39,9 @@ PREREQ_APPS = [
     'taggit',
     'condensedinlinepanel',
 
+    'tabbed_admin',
+    'grappelli',
+    'django_admin_select2',
     'corsheaders',
     'django_select2',
 

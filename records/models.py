@@ -11,6 +11,10 @@ class Corporation(models.Model):
     def __unicode__(self):
         return self.corporation
 
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("corporation__icontains",)
+
     class Meta:
         db_table = 'fec_corporations'
 
@@ -21,6 +25,10 @@ class Country(models.Model):
 
     def __str__(self):
         return self.country
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("country__icontains",)
 
     class Meta:
         db_table = 'fec_countries'
@@ -42,7 +50,6 @@ class FECEntity(models.Model):
 
     place = models.ForeignKey('Place', default=1)
 
-    associated_people = models.ManyToManyField('Person', related_name='associated_people', blank=True)
     associated_corporations = models.ManyToManyField('Corporation', related_name='associated_corporations', blank=True)
 
     countries = models.ManyToManyField('Country', blank=True)
@@ -63,6 +70,27 @@ class FECEntity(models.Model):
         ordering = ('date', 'title')
 
 
+class PersonRole(models.Model):
+    id = models.AutoField(primary_key=True)
+    role = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return "%s" % self.role
+
+    class Meta:
+        db_table = 'fec_person_roles'
+
+
+class AssociatedPerson(models.Model):
+    id = models.AutoField(primary_key=True)
+    fec_entity = models.ForeignKey('FECEntity', related_name='associated_people')
+    person = models.ForeignKey('Person')
+    role = models.ForeignKey('PersonRole', blank=True, null=True)
+
+    class Meta:
+        db_table = 'fec_associated_person'
+
+
 class Person(models.Model):
     id = models.AutoField(primary_key=True)
     person = models.CharField(max_length=200, unique=True)
@@ -72,6 +100,10 @@ class Person(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.person
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("person__icontains",)
 
     class Meta:
         db_table = 'fec_people'
