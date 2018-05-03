@@ -171,3 +171,14 @@ class ContactFormPage(WagtailCaptchaEmailForm):
             FieldPanel('subject'),
         ], "Email notification")
     ]
+
+
+class RegularPage(Page):
+    header_image = models.ForeignKey('wagtailimages.Image', related_name='+',
+                                 on_delete=models.PROTECT, blank=True, null=True)
+    page_body = RichTextField(blank=True, null=True, editor='tinymce')
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('header_image'),
+        FieldPanel('page_body', classname='full'),
+    ]
