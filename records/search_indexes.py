@@ -59,8 +59,3 @@ class RecordIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_place_display(self, obj):
         return obj.place.place
-
-    def prepare_doc_id(self, obj):
-        return urllib.quote_plus("fec/%s/%s_%s.jpg" % (obj.doc_name[:2],
-                                                       obj.doc_name[:2],
-                                                       str(obj.doc_name[3:])))
