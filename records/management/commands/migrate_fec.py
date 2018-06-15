@@ -2,8 +2,9 @@ import mysql.connector
 import dj_database_url
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.management import BaseCommand, call_command
+from django.db import IntegrityError
 
-from records.models import FECEntity, Place, Person, Country, Corporation
+from records.models import FECEntity, Place, Person, Country, Corporation, AssociatedPerson
 
 
 class Command(BaseCommand):
@@ -59,7 +60,7 @@ class Command(BaseCommand):
         cur.execute(sql)
         rows = cur.fetchall()
 
-        Country.objects.all().delete()
+        # Country.objects.all().delete()
 
         for row in rows:
             print("Adding country: %s" % row['Country'])
@@ -77,7 +78,7 @@ class Command(BaseCommand):
         cur.execute(sql)
         rows = cur.fetchall()
 
-        Corporation.objects.all().delete()
+        # Corporation.objects.all().delete()
 
         for row in rows:
             print("Adding corporation: %s" % row['Corporation'].encode('utf-8'))
@@ -95,7 +96,7 @@ class Command(BaseCommand):
         cur.execute(sql)
         rows = cur.fetchall()
 
-        Person.objects.all().delete()
+        # Person.objects.all().delete()
 
         for row in rows:
             print("Adding person: %s" % row['Person'].encode('utf-8'))
@@ -119,41 +120,41 @@ class Command(BaseCommand):
         cur.execute(sql)
         rows = cur.fetchall()
 
-        FECEntity.objects.all().delete()
+        # FECEntity.objects.all().delete()
+        AssociatedPerson.objects.all().delete()
 
         for row in rows:
             print("Adding document: %s" % row['DocName'])
 
-            try:
-                fec_entity = FECEntity.objects.get(doc_name=row['DocName'])
-                print("Document %s already exists" % row['DocName'])
-            except ObjectDoesNotExist:
-                if row['AssociatedPlace'] == 'New York City':
-                    place = Place.objects.get(place='New York')
-                else:
-                    place = Place.objects.get(place=row['AssociatedPlace'])
+            fec_entity, created = FECEntity.objects.get_or_create(
+                doc_name=row['DocName'],
+                pages=row['Pages']
+            )
+            if row['AssociatedPlace'] == 'New York City':
+                place = Place.objects.get(place='New York')
+            else:
+                place = Place.objects.get(place=row['AssociatedPlace'])
 
-                fec_entity = FECEntity(
-                    id=row['ID'],
-                    doc_name=row['DocName'],
-                    title=row['Title'],
-                    title_given=row.get('TitleGiven', ""),
-                    date="%s-%s-%s" % (row['DateYY'], row['DateMM'], row['DateDD']),
-                    pages=row['Pages'],
-                    is_coded=row['IsCoded'],
-                    is_handwritten=row['IsHandWritten'],
-                    summary=row['Summary'],
-                    note=row['Note'],
-                    internal_note=row['InternalNote'],
-                    confidential=row['NotToPublish'],
-                    place=place
-                )
-                try:
-                    fec_entity.save()
-                    skip = False
-                except ValidationError:
-                    print "I'm skipping"
-                    skip = True
+            fec_entity.id = row['ID']
+            fec_entity.doc_name = row['DocName']
+            fec_entity.title = row['Title']
+            fec_entity.title_given = row.get('TitleGiven', "")
+            fec_entity.date = "%s-%s-%s" % (row['DateYY'], row['DateMM'], row['DateDD'])
+            fec_entity.pages = row['Pages']
+            fec_entity.is_coded = row['IsCoded']
+            fec_entity.is_handwritten = row['IsHandWritten']
+            fec_entity.summary = row['Summary']
+            fec_entity.note = row['Note']
+            fec_entity.internal_note = row['InternalNote']
+            fec_entity.confidential = row['NotToPublish']
+            fec_entity.place = place
+
+            try:
+                fec_entity.save()
+                skip = False
+            except IntegrityError:
+                print "I'm skipping"
+                skip = True
 
             if not skip:
                 # AssociatedPeople
@@ -172,8 +173,10 @@ class Command(BaseCommand):
 
                 for sub_row in sub_rows:
                     person = Person.objects.filter(person=sub_row['Person'].strip().split(', ')[0]).first()
-                    fec_entity.associated_people.add(person)
-                    print("AP: %s" % person.person)
+                    AssociatedPerson.objects.create(
+                        fec_entity=fec_entity,
+                        person=person
+                    )
 
                 # AssociatedCorporations
                 sql = """
