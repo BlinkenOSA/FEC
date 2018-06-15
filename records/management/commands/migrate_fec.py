@@ -126,7 +126,10 @@ class Command(BaseCommand):
         for row in rows:
             print("Adding document: %s" % row['DocName'])
 
-            fec_entity, created = FECEntity.objects.get_or_create(doc_name=row['DocName'])
+            fec_entity, created = FECEntity.objects.get_or_create(
+                doc_name=row['DocName'],
+                pages=row['Pages']
+            )
             if row['AssociatedPlace'] == 'New York City':
                 place = Place.objects.get(place='New York')
             else:
