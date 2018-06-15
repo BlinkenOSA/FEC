@@ -24,7 +24,7 @@ class FECEntityAdmin(TabbedModelAdmin):
     list_display_link = ('title',)
     date_hierarchy = 'date'
     ordering = ('date', 'title')
-    list_filter = ('place', 'countries')
+    list_filter = ('place', 'countries', 'associated_people__person', 'subject_corporations__corporation')
 
     raw_id_fields = ('countries', 'subject_people', 'subject_corporations', 'associated_corporations')
     autocomplete_lookup_fields = {

@@ -51,7 +51,7 @@ class EntitySearchView(FacetedSearchView):
 
     def get_queryset(self):
         qs = super(EntitySearchView, self).get_queryset()
-        return qs.order_by('date_display', 'title_display').facet('associated_people')
+        return qs.order_by('date_display', 'title_display')
 
 
 class EntityDetailView(DetailView):

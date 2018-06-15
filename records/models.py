@@ -32,6 +32,8 @@ class Country(models.Model):
 
     class Meta:
         db_table = 'fec_countries'
+        verbose_name = 'Country'
+        verbose_name_plural = 'Countries'
 
 
 class FECEntity(models.Model):
