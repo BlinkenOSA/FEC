@@ -132,14 +132,14 @@ class EntityManifestView(JSONResponseMixin, DetailView):
         md['Given Title'] = fec_entity.title_given
         md['Number of Pages'] = str(fec_entity.pages)
         md['Summary'] = fec_entity.summary
-        md["Associated People"] = ", ".join([ap.person for ap in fec_entity.associated_people.iterator()])
-        md["Associated Corporation"] = ", ".join([ac.corporation for ac in
+        md["Associated People"] = ", ".join([unicode(ap.person) for ap in fec_entity.associated_people.iterator()])
+        md["Associated Corporation"] = ", ".join([unicode(ac.corporation) for ac in
                                                   fec_entity.associated_corporations.iterator()])
         md["Spatial Coverage"] = ", ".join([c.country for c in fec_entity.countries.iterator()])
         md["Coded message"] = 'Yes' if fec_entity.is_coded else 'No'
         md["Handwritten text"] = 'Yes' if fec_entity.is_handwritten else 'No'
-        md["Subject People"] = ", ".join([ap.person for ap in fec_entity.subject_people.iterator()])
-        md["Subject Corporation"] = ", ".join([ac.corporation for ac in
+        md["Subject People"] = ", ".join([unicode(ap.person) for ap in fec_entity.subject_people.iterator()])
+        md["Subject Corporation"] = ", ".join([unicode(ac.corporation) for ac in
                                                   fec_entity.subject_corporations.iterator()])
         md["Note"] = fec_entity.note
         md["Place"] = fec_entity.place.place
