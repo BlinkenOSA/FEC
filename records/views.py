@@ -100,7 +100,7 @@ class EntityManifestView(JSONResponseMixin, DetailView):
 
         seq = manifest.sequence()
 
-        for p in range(1, fec_entity.pages+1):
+        for p in range(1, fec_entity.pages + 1):
             # Create a canvas with uri slug of page-p, and label of Page 1
             canvas_id = "fec-%s-page-%s" % (fec_entity.doc_name, str(p))
             cvs = seq.canvas(ident=canvas_id, label="Page %s" % p)
@@ -110,18 +110,18 @@ class EntityManifestView(JSONResponseMixin, DetailView):
                 image_id = urllib.quote_plus(
                     "fec/%s/%s_%04d.jpg" % (fec_entity.doc_name[:underscore_idx],
                                             fec_entity.doc_name[:underscore_idx],
-                                            int(fec_entity.doc_name[underscore_idx+1:])+p-1))
+                                            int(fec_entity.doc_name[underscore_idx + 1:]) + p - 1))
             else:
                 if p == 1:
                     image_id = urllib.quote_plus(
                         "fec/%s/%s_%s.jpg" % (fec_entity.doc_name[:underscore_idx],
-                                                fec_entity.doc_name[:underscore_idx],
-                                                fec_entity.doc_name[underscore_idx+1:]))
+                                              fec_entity.doc_name[:underscore_idx],
+                                              fec_entity.doc_name[underscore_idx + 1:]))
                 else:
                     image_id = urllib.quote_plus(
                         "fec/%s/%s_%s.jpg" % (fec_entity.doc_name[:underscore_idx],
-                                                fec_entity.doc_name[:underscore_idx],
-                                                'fec_entity.doc_name[%s:]%s' % (underscore_idx+1, p-1)))
+                                              fec_entity.doc_name[:underscore_idx],
+                                              '%s%s' % (fec_entity.doc_name[underscore_idx + 1], p - 1)))
 
             cvs.set_image_annotation(image_id, iiif=True)
 
@@ -142,7 +142,7 @@ class EntityManifestView(JSONResponseMixin, DetailView):
         md["Handwritten text"] = 'Yes' if fec_entity.is_handwritten else 'No'
         md["Subject People"] = ", ".join([unicode(ap.person) for ap in fec_entity.subject_people.iterator()])
         md["Subject Corporation"] = ", ".join([unicode(ac.corporation) for ac in
-                                                  fec_entity.subject_corporations.iterator()])
+                                               fec_entity.subject_corporations.iterator()])
         md["Note"] = fec_entity.note
         md["Place"] = fec_entity.place.place
         return md
