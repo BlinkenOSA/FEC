@@ -121,7 +121,7 @@ class EntityManifestView(JSONResponseMixin, DetailView):
                     image_id = urllib.quote_plus(
                         "fec/%s/%s_%s.jpg" % (fec_entity.doc_name[:underscore_idx],
                                               fec_entity.doc_name[:underscore_idx],
-                                              '%s%s' % (fec_entity.doc_name[underscore_idx + 1], p - 1)))
+                                              '%s%s' % (fec_entity.doc_name[underscore_idx + 1:], p - 1)))
 
             cvs.set_image_annotation(image_id, iiif=True)
 
