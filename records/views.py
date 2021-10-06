@@ -106,22 +106,14 @@ class EntityManifestView(JSONResponseMixin, DetailView):
             cvs = seq.canvas(ident=canvas_id, label="Page %s" % p)
             underscore_idx = fec_entity.doc_name.find('_')
 
-            if fec_entity.doc_name[-1].isdigit():
-                image_id = urllib.quote_plus(
-                    "fec/%s/%s_%04d.jpg" % (fec_entity.doc_name[:underscore_idx],
-                                            fec_entity.doc_name[:underscore_idx],
-                                            int(fec_entity.doc_name[underscore_idx + 1:]) + p - 1))
-            else:
-                if p == 1:
-                    image_id = urllib.quote_plus(
-                        "fec/%s/%s_%s.jpg" % (fec_entity.doc_name[:underscore_idx],
-                                              fec_entity.doc_name[:underscore_idx],
-                                              fec_entity.doc_name[underscore_idx + 1:]))
-                else:
-                    image_id = urllib.quote_plus(
-                        "fec/%s/%s_%s.jpg" % (fec_entity.doc_name[:underscore_idx],
-                                              fec_entity.doc_name[:underscore_idx],
-                                              '%s%s' % (fec_entity.doc_name[underscore_idx + 1:], p - 1)))
+            image_id = urllib.quote_plus(
+                "fec/%s/%s_%s_%02d.jpg" % (
+                    fec_entity.doc_name[:underscore_idx],
+                    fec_entity.doc_name[:underscore_idx],
+                    fec_entity.doc_name[underscore_idx + 1:],
+                    p
+                )
+            )
 
             cvs.set_image_annotation(image_id, iiif=True)
 
