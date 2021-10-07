@@ -64,7 +64,7 @@ class EntityDetailView(DetailView):
             reverse('record:manifest', args=[context['fecentity'].id]))
 
         img_id = urllib.quote_plus(
-            "fec/%s/%s_%s.jpg" % (self.object.doc_name[:2],
+            "fec/%s/%s_%s_01.jpg" % (self.object.doc_name[:2],
                                   self.object.doc_name[:2],
                                   self.object.doc_name[3:]))
 
