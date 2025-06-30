@@ -170,7 +170,7 @@
                                 <p class="text-dark">{{ fec_entity.date_display }}</p>
                             </div>
                         </div>
-                        <img src="{% get_media_prefix %}{{ fec_entity.doc_id|slice:"0:2" }}/thumbnails/{{ fec_entity.doc_id }}.jpg" class="img-fluid">
+                        <img src="{% get_media_prefix %}/thumbnails/{{ fec_entity.doc_id|slice:"0:2" }}/{{ fec_entity.doc_id }}.jpg" class="img-fluid">
                     </div>
                 </div><!--/col-->
             {% endfor %}
